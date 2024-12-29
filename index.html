@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkyVision - Weather App</title>
+  <link rel="stylesheet" href="main.css" />
+</head>
+<body>
+  <div class="app-wrap">
+    <header>
+      <h1 class="app-title">SkyVision</h1>
+      <div class="search-container">
+        <input type="text" autocomplete="off" class="search-box" placeholder="Search for a city..." />
+        <ul id="hint-bar" class="hint-bar"></ul>
+      </div>
+    </header>
+    <main>
+      <section class="location">
+        <div class="city">City & Country\-</div>
+        <div class="date">Date\-</div>
+      </section>
+      <div class="weather-container">
+        <div class="current">
+          <div class="temp">--<span>°c</span></div>
+          <div class="weather">Weather Condition</div>
+          <div class="hi-low">--°c / --°c</div>
+        </div>
+        <div class="additional-info">
+          <div class="humidity">Humidity: --%</div>
+          <div class="wind">Wind Speed: -- km/h</div>
+        </div>
+      </div>
+    </main>
+    <div id="loading" class="loading">Loading...</div>
+  </div>
+  <script src="main.js"></script>
+</body>
+</html>
