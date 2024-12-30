@@ -15,8 +15,11 @@ API: OpenWeatherMap.
 Deployment: GitHub Pages.
 -----------------
 Screenshots 📸
-
+![Screenshot](assets/screenshot1.png)
+![Screenshot](assets/screenshot2.png)
+![Screenshot](assets/screenshot3.png)
+![Screenshot](assets/screenshot4.png)
 ____________________
 LIVE SITE :
-[Live Demo](https://deathlywalker.github.io/SkyVision-Project/)
+[SkyVision](https://deathlywalker.github.io/SkyVision-Project/)
 
