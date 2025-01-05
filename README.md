@@ -16,9 +16,12 @@ Deployment: GitHub Pages.
 -----------------
 Screenshots 📸
 ![Screenshot](assets/homepage.png)
-![Screenshot](assets/screenshot2.png)
-![Screenshot](assets/screenshot3.png)
-![Screenshot](assets/screenshot4.png)
+![Screenshot](assets/sugesstionbox.png)
+![Screenshot](assets/ERROR.png)
+![Screenshot](assets/rainyweather.png)
+![Screenshot](assets/snow.png)
+![Screenshot](assets/cloudyweather.png)
+![Screenshot](assets/fogweather.png)
 ____________________
 LIVE SITE :
 [SkyVision](https://deathlywalker.github.io/SkyVision-Project/)
