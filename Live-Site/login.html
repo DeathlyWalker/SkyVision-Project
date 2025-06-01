@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login / Sign Up - SkyVision</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: url(assets/2310-w062-n005-289B-p15-289.jpg);
+      background-size: cover;
+      background-blend-mode: difference;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: url()no-repeat;
+      background-size: cover;
+      background-blend-mode: darken;
+      padding: 30px 25px;
+      border-radius: 15px;
+      max-width: 400px;
+      width: 100%;
+      border-radius: 25px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    h2 {
+      text-align: center;
+      /* text-decoration: solid; */
+      font-family: "Kaushan Script", serif;
+      font-weight: 200;
+      font-style: normal;
+      font-size: 2.5em;
+      color: #00ffea;
+      background: transparent;
+      border-radius: 20px;
+      text-shadow: 0 0 12px #000000;
+      font-weight: 900;
+    }
+    
+    input {
+      width: 94%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 15px;
+      background-color: #2196f3;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #1976d2;
+    }
+
+    .app-title {
+      cursor: pointer;
+    }
+
+    .footer {
+      margin-top: 15px;
+      text-align: center;
+    }
+
+    .footer a {
+      color: #2196f3;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    .message {
+      margin-top: 12px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .error {
+      color: crimson;
+    }
+
+    .success {
+      color: green;
+    }
+
+    #loginText {
+  cursor: pointer;
+}
+
+  </style>
+</head>
+
+<body>
+
+  <div class="container" id="loginContainer">
+    <h2 id="loginText">SkyVision🌤️🍃</h2>
+    <input type="text" id="loginUsername" placeholder="Username" autocomplete="username" />
+    <input type="password" id="loginPassword" placeholder="Password" autocomplete="current-password" />
+    <button onclick="login()">Login</button>
+    <div class="footer">
+      No account? <a onclick="showSignup()">Sign Up</a>
+    </div>
+    <div id="loginMessage" class="message"></div>
+  </div>
+
+  <div class="container" id="signupContainer" style="display:none;">
+    <h2>Sign Up</h2>
+    <input type="text" id="signupUsername" placeholder="Choose Username" autocomplete="username" />
+    <input type="password" id="signupPassword" placeholder="Choose Password" autocomplete="new-password" />
+    <button onclick="signup()">Create Account</button>
+    <div class="footer">
+      Already have an account? <a onclick="showLogin()">Login</a>
+    </div>
+    <div id="signupMessage" class="message"></div>
+  </div>
+
+  <script>
+
+    // const redirectUrl = "index.html"; // Change this to your weather site URL
+    const redirectUrl = "Home.html"
+
+    async function signup() {
+      const username = document.getElementById('signupUsername').value;
+      const password = document.getElementById('signupPassword').value;
+
+      try {
+        const response = await fetch('http://localhost:3000/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password }),
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+          alert(data.message);
+          window.location.href = redirectUrl;
+        } else {
+          alert(data.message);
+        }
+      } catch (error) {
+        alert('Error: ' + error.message);
+      }
+    }
+
+    async function login() {
+      const username = document.getElementById('loginUsername').value;
+      const password = document.getElementById('loginPassword').value;
+
+      try {
+        const response = await fetch('http://localhost:3000/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password }),
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+          alert(data.message);
+          window.location.href = redirectUrl;
+        } else {
+          alert(data.message);
+        }
+      } catch (error) {
+        alert('Error: ' + error.message);
+      }
+    }
+
+    // Your actual weather site URL to redirect after login/signup success:
+    // const redirectUrl = "home.html";
+
+
+    // Load users from localStorage or create empty object
+    let users = JSON.parse(localStorage.getItem("users")) || {};
+
+    // Show signup form
+    function showSignup() {
+      clearMessages();
+      document.getElementById("loginContainer").style.display = "none";
+      document.getElementById("signupContainer").style.display = "block";
+      clearInputs();
+    }
+
+    // Show login form
+    function showLogin() {
+      clearMessages();
+      document.getElementById("signupContainer").style.display = "none";
+      document.getElementById("loginContainer").style.display = "block";
+      clearInputs();
+    }
+
+    // Clear input fields
+    function clearInputs() {
+      document.querySelectorAll("input").forEach(input => input.value = "");
+    }
+
+    // Clear messages
+    function clearMessages() {
+      document.getElementById("loginMessage").textContent = "";
+      document.getElementById("signupMessage").textContent = "";
+    }
+
+    // Signup function
+    function signup() {
+      clearMessages();
+      const username = document.getElementById("signupUsername").value.trim();
+      const password = document.getElementById("signupPassword").value;
+
+      if (!username || !password) {
+        showMessage("signupMessage", "Please fill both username and password.", true);
+        return;
+      }
+      if (users[username]) {
+        showMessage("signupMessage", "Username already exists. Please choose another.", true);
+        return;
+      }
+
+      // Save new user
+      users[username] = { password: password };
+      localStorage.setItem("users", JSON.stringify(users));
+
+      showMessage("signupMessage", "Account created successfully! Redirecting...", false);
+
+      // Redirect after 1.5 seconds
+      setTimeout(() => {
+        window.location.href = redirectUrl;
+      }, 1200);
+    }
+
+    // Login function
+    function login() {
+      clearMessages();
+      const username = document.getElementById("loginUsername").value.trim();
+      const password = document.getElementById("loginPassword").value;
+
+      if (!username || !password) {
+        showMessage("loginMessage", "Please fill both username and password.", true);
+        return;
+      }
+      if (!users[username]) {
+        showMessage("loginMessage", "User not found. Please sign up first.", true);
+        return;
+      }
+      if (users[username].password !== password) {
+        showMessage("loginMessage", "Incorrect password.", true);
+        return;
+      }
+
+      showMessage("loginMessage", "Login successful! Redirecting...", false);
+
+      // Redirect after 1.5 seconds
+      setTimeout(() => {
+        window.location.href = redirectUrl;
+      }, 1200);
+    }
+
+    // Show message helper
+    function showMessage(elementId, message, isError) {
+      const el = document.getElementById(elementId);
+      el.textContent = message;
+      el.className = isError ? "message error" : "message success";
+    }
+  </script>
+  <script>
+    // When user presses Enter in username or password fields, handle focus or submit
+    document.getElementById('loginUsername').addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') {
+        e.preventDefault(); // Prevent form submit or page reload
+        const username = this.value.trim();
+        if (!username) {
+          showMessage('loginMessage', 'Please enter username.', true);
+          return;
+        }
+        document.getElementById('loginPassword').focus();
+      }
+    });
+
+    document.getElementById('loginPassword').addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const username = document.getElementById('loginUsername').value.trim();
+        const password = this.value;
+        if (!username || !password) {
+          showMessage('loginMessage', 'Please fill both username and password.', true);
+          return;
+        }
+        login(); // Call your existing login function
+      }
+    });
+
+
+    document.getElementById("loginText").addEventListener("click", function() {
+  window.location.href = "login.html";
+});
+
+
+  </script>
+</body>
+
+</html>

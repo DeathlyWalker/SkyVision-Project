@@ -1,0 +1,281 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Krona+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Krona One", serif;
+  font-style: normal;
+  font-weight: 100;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #000000;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  transition: background 0.3s ease-in-out;
+  background-image: url("IMG/sunrise-over-snowcapped-mountains-concept2x.webp");
+}
+
+.user-profile {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid #00ffea;
+  margin-left: auto;
+  margin-right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffffcc;
+  box-shadow: 0 0 5px #00ffea;
+  transition: transform 0.2s;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.user-profile:hover {
+  transform: scale(1.05);
+}
+
+.user-profile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.logout-dialog {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0, 0, 0, 0.4);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.dialog-content {
+  background: #ffffff;
+  padding: 25px 30px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  font-family: "Roboto", sans-serif;
+  font-size: 1rem;
+  color: #000;
+}
+
+.dialog-content p {
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.dialog-content button {
+  margin: 0 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background-color: #00ffea;
+  color: #000;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.dialog-content button:hover {
+  background-color: #00c9b7;
+}
+
+
+.app-wrap {
+  background: rgba(0, 0, 0, 0.6);
+  padding: 10px;
+  border-radius: 18px;
+  width: 100%;
+  max-width: 1000px;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.582);
+  animation: fadeIn 0.5s ease-out;
+}
+
+header {
+  padding: 35px;
+  position: relative;
+}
+
+.app-title {
+  font-family: "Kaushan Script", serif;
+  font-weight: 200;
+  font-style: normal;
+  font-size: 2.5em;
+  color: #00ffea;
+  background: transparent;
+  border-radius: 20px;
+  text-shadow: 0 0 15px #000000;
+  font-weight: 900;
+  position: absolute;
+  left: 49%;
+  transform: translateX(-50%);
+  top: 20px;
+}
+
+.search-container {
+  position: relative;
+}
+
+.search-box {
+  font-family:'Lucida Sans Unicode', sans-serif;
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  color: #333;
+  font-weight: 600;
+  margin-top: 56px;
+}
+
+.hint-bar {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  max-height: 125px;
+  overflow-y: auto;
+  background-color: #ffffffd8;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  margin-top: 10px;
+  padding: 10px 0;
+  list-style-type: none;
+  display: none;
+  font-family:'Roboto', sans-serif;
+  font-weight: 570;
+  font-style: normal;
+}
+
+.hint-bar li {
+  padding: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.hint-bar li:hover {
+  background-color: #000000a4;
+  color: #ffffffd5;
+}
+
+.location {
+  margin-bottom: 5px;
+}
+
+.city {
+  font-size: 2.0em;
+  font-weight: 700;
+  color: #fff;
+}
+
+.date {
+  padding: 5px;
+  font-size: 1.3em;
+  color: #ddd;
+}
+
+.weather-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding-bottom: 10px;
+  gap: 10px;
+}
+
+.current {
+  width: 55%;
+}
+
+.additional-info {
+  width: 35%;
+  text-align: left;
+  font-size: 1.1em;
+}
+
+.temp {
+  font-size: 3.5em;
+  font-weight: 700;
+  color: #fff;
+}
+
+.weather {
+  font-size: 1.2em;
+  margin-top: 5px;
+  color: #dcdcdc;
+}
+
+.hi-low {
+  font-size: 1em;
+  color: #ddd;
+  margin-top: 10px;
+}
+
+.humidity,
+.wind {
+  margin-top: 10px;
+  color: #ddd;
+}
+
+.loading {
+  display: none;
+  font-size: 1.5em;
+  color: #000000;
+  font-weight: bold;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .app-wrap {
+    width: 90%;
+  }
+
+  .city {
+    font-size: 1.5em;
+  }
+
+  .temp {
+    font-size: 3em;
+  }
+
+  .weather-container {
+    flex-direction: column;
+  }
+
+  .current,
+  .additional-info {
+    width: 100%;
+    margin-top: 20px;
+  }
+}
+
+

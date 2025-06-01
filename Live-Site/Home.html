@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SkyVision - Weather App</title>
+  <link rel="stylesheet" href="main.css" />
+  <link rel="stylesheet" href="profile.css" /> <!-- 👤 Added profile styles -->
+</head>
+<body>
+  <div class="app-wrap">
+    <header><div id="title-id">
+      <h1 class="app-title">SkyVision</h1></div>
+      <div class="search-container">
+        <input type="text" autocomplete="off" class="search-box" placeholder="Search for a city..." />
+        <ul id="hint-bar" class="hint-bar"></ul>
+      </div>
+
+      <!-- 👤 Profile icon -->
+      <div class="user-profile" id="userProfile" title="User Profile">
+        <img src="https://cdn.iconscout.com/icon/free/png-256/free-profile-icon-download-in-svg-png-gif-file-formats--people-user-human-add-friend-communication-pack-network-icons-1982537.png?f=webp&w=128" alt="User" />
+      </div>
+    </header>
+
+    <main>
+      <section class="location">
+        <div class="city">City & Country\-</div>
+        <div class="date">Date\-</div>
+      </section>
+      <div class="weather-container">
+        <div class="current">
+          <div class="temp">--<span>°c</span></div>
+          <div class="weather">Weather Condition</div>
+          <div class="hi-low">--°c / --°c</div>
+        </div>
+        <div class="additional-info">
+          <div class="humidity">Humidity: --%</div>
+          <div class="wind">Wind Speed: -- km/h</div>
+        </div>
+      </div>
+    </main>
+
+    <div id="loading" class="loading">Loading...</div>
+  </div>
+
+  <!-- 🔒 Logout dialog -->
+  <div class="logout-dialog" id="logoutDialog">
+    <div class="dialog-content">
+      <p>Do you want to log out?</p>
+      <button id="confirmLogout">Logout</button>
+      <button id="cancelLogout">Cancel</button>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+  <script src="profile.js"></script> <!-- 🔄 Added logout/profile logic -->
+</body>
+</html>
