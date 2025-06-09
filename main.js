@@ -1,7 +1,28 @@
 const api = {
-  key: "fcc8de7015bbb202209bbf0261babf4c",  // Replace with your API key
-  base: "https://api.openweathermap.org/data/2.5/"
+  key: "86904376bcd14978b4471045250906",
+  base: "https://api.weatherapi.com/v1/"
 }
+
+// DOM references
+const userProfile = document.getElementById('userProfile');
+const logoutDialog = document.getElementById('logoutDialog');
+const confirmLogout = document.getElementById('confirmLogout');
+const cancelLogout = document.getElementById('cancelLogout');
+
+userProfile.addEventListener('click', () => {
+  logoutDialog.style.display = 'flex';
+});
+
+if (confirmLogout) {
+  confirmLogout.addEventListener('click', () => {
+    localStorage.removeItem('currentUser');
+    window.location.href = "login.html";
+  });
+}
+
+cancelLogout.addEventListener('click', () => {
+  logoutDialog.style.display = 'none';
+});
 
 const searchbox = document.querySelector('.search-box');
 const hintBar = document.getElementById('hint-bar');
@@ -9,13 +30,14 @@ const loading = document.getElementById('loading');
 searchbox.addEventListener('input', showHints);
 searchbox.addEventListener('keypress', setQuery);
 
+// Show suggestions
 function showHints() {
   const query = searchbox.value.trim();
   if (query.length > 2) {
-    fetch(`https://api.openweathermap.org/data/2.5/find?q=${query}&units=metric&APPID=${api.key}`)
+    fetch(`${api.base}search.json?key=${api.key}&q=${query}`)
       .then(res => res.json())
       .then(data => {
-        const hints = data.list.map(city => city.name).slice(0, 5);  // Limit to 5 suggestions
+        const hints = data.map(city => city.name).slice(0, 3);
         if (hints.length > 0) {
           hintBar.innerHTML = hints.map(city => `<li>${city}</li>`).join('');
           hintBar.style.display = 'block';
@@ -25,7 +47,7 @@ function showHints() {
             item.addEventListener('click', () => {
               searchbox.value = item.innerText;
               getResults(item.innerText);
-              hintBar.style.display = 'none'; // Hide the suggestions after selection
+              hintBar.style.display = 'none';
             });
           });
         } else {
@@ -45,12 +67,10 @@ function setQuery(evt) {
 }
 
 function getResults(query) {
-  loading.style.display = 'block';  // Show loading spinner
+  loading.style.display = 'block';
 
-  fetch(`${api.base}weather?q=${query}&units=metric&APPID=${api.key}`)
-    .then(weather => {
-      return weather.json();
-    })
+  fetch(`${api.base}current.json?key=${api.key}&q=${query}`)
+    .then(res => res.json())
     .then(displayResults)
     .catch(error => {
       alert('City not found, please try again.');
@@ -58,62 +78,47 @@ function getResults(query) {
     });
 }
 
-function displayResults(weather) {
-  loading.style.display = 'none';  // Hide loading spinner
+function displayResults(data) {
+  loading.style.display = 'none';
 
-  let city = document.querySelector('.location .city');
-  city.innerText = `${weather.name}, ${weather.sys.country}`;
+  const weather = data.current;
+  const location = data.location;
+
+  document.querySelector('.location .city').innerText = `${location.name}, ${location.country}`;
 
   let now = new Date();
-  let date = document.querySelector('.location .date');
-  date.innerText = dateBuilder(now);
+  document.querySelector('.location .date').innerText = dateBuilder(now);
 
-  let temp = document.querySelector('.current .temp');
-  temp.innerHTML = `${Math.round(weather.main.temp)}<span>°c</span>`;
+  document.querySelector('.current .temp').innerHTML = `${Math.round(weather.temp_c)}<span>°c</span>`;
+  document.querySelector('.current .weather').innerText = weather.condition.text;
+  document.querySelector('.hi-low').innerText = `Feels like: ${Math.round(weather.feelslike_c)}°c`;
 
-  let weather_el = document.querySelector('.current .weather');
-  weather_el.innerText = weather.weather[0].main;
+  document.querySelector('.additional-info .humidity').innerText = `Humidity: ${weather.humidity}%`;
+  document.querySelector('.additional-info .wind').innerText = `Wind Speed: ${weather.wind_kph} km/h`;
 
-  let hilow = document.querySelector('.hi-low');
-  hilow.innerText = `${Math.round(weather.main.temp_min)}°c / ${Math.round(weather.main.temp_max)}°c`;
-
-  // Additional Details
-  let humidity = document.querySelector('.additional-info .humidity');
-  humidity.innerText = `Humidity: ${weather.main.humidity}%`;
-
-  let wind = document.querySelector('.additional-info .wind');
-  wind.innerText = `Wind Speed: ${weather.wind.speed} km/h`;
-
-  // Change background based on weather condition
-  changeBackground(weather.weather[0].main, weather.main.temp);
+  changeBackground(weather.condition.text, weather.temp_c);
 }
 
 function dateBuilder(d) {
   let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-
-  let day = days[d.getDay()];
-  let date = d.getDate();
-  let month = months[d.getMonth()];
-  let year = d.getFullYear();
-
-  return `${day} ${date} ${month} ${year}`;
+  return `${days[d.getDay()]} ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
 }
 
-function changeBackground(weatherCondition, temperature) {
+function changeBackground(condition, temperature) {
   const body = document.querySelector('body');
   let backgroundImage = '';
 
-  if (weatherCondition === 'Clear') {
-    backgroundImage = 'url("IMG/SunnyImage-2.jpeg")';  // Sunny
-  } else if (weatherCondition === 'Rain' || weatherCondition === 'Drizzle') {
-    backgroundImage = 'url("IMG/RainImg-1.jpeg")';  // Rain
-  } else if (weatherCondition === 'Clouds') {
-    backgroundImage = 'url("IMG/CloudyImg-1.jpeg")';  // Cloudy
-  } else if (weatherCondition === 'Snow') {
-    backgroundImage = 'url("IMG/SnowImg-2.jpeg")';  // Snow
+  if (condition.includes('Sunny') || condition.includes('Clear')) {
+    backgroundImage = 'url("IMG/SunnyImage-2.jpeg")';
+  } else if (condition.includes('Rain') || condition.includes('Drizzle')) {
+    backgroundImage = 'url("IMG/RainImg-1.jpeg")';
+  } else if (condition.includes('Cloud')) {
+    backgroundImage = 'url("IMG/CloudyImg-1.jpeg")';
+  } else if (condition.includes('Snow')) {
+    backgroundImage = 'url("IMG/SnowImg-2.jpeg")';
   } else {
-    backgroundImage = 'url("IMG/Fog&SnowImg-1.jpeg")';  // Default (sunny)
+    backgroundImage = 'url("IMG/Fog&SnowImg-1.jpeg")';
   }
 
   body.style.backgroundImage = backgroundImage;
